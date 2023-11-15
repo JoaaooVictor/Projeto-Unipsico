@@ -7,8 +7,8 @@
         public string RaAluno { get; set; }
         public int IdadeAluno { get; set; }
         public string SalaAluno { get; set; }
-        public DateTime DataRegistro => DateTime.Now;
-        public virtual ConsultaModel Consulta { get; set; }
-        public virtual List<EstagioModel>? Estagio { get; set; }
+        public DateTime DataRegistro { get; set; } = DateTime.Now;
+        public virtual ICollection<ConsultaModel>? Consulta { get; set; }
+        public virtual ICollection<EstagioModel>? Estagio { get; set; }
     }
 }
