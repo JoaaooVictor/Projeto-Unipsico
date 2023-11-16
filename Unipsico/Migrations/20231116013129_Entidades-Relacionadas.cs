@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Unipsico.Migrations
 {
-    public partial class Inicial : Migration
+    public partial class EntidadesRelacionadas : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,11 +19,15 @@ namespace Unipsico.Migrations
                     AlunoId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     NomeAluno = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    CpfAluno = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     RaAluno = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    IdadeAluno = table.Column<int>(type: "int", nullable: false),
                     SalaAluno = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CelularAluno = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    DataRegistro = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -61,7 +65,7 @@ namespace Unipsico.Migrations
                     NomePaciente = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     IdadePaciente = table.Column<int>(type: "int", nullable: false),
-                    CpfPaciente = table.Column<string>(type: "longtext", nullable: false)
+                    CpfPaciente = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CelularPaciente = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -80,7 +84,14 @@ namespace Unipsico.Migrations
                 {
                     ProfessorId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     NomeProfessor = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CpfProfessor = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    RpProfessor = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CelularProfessor = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    DataRegistro = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -92,14 +103,14 @@ namespace Unipsico.Migrations
                 name: "InstituicoesCredenciadas",
                 columns: table => new
                 {
-                    InstituicaoId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    InstituicaoCredenciadaId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     NomeInstituicao = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     EnderecoId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_InstituicoesCredenciadas", x => x.InstituicaoId);
+                    table.PrimaryKey("PK_InstituicoesCredenciadas", x => x.InstituicaoCredenciadaId);
                     table.ForeignKey(
                         name: "FK_InstituicoesCredenciadas_Enderecos_EnderecoId",
                         column: x => x.EnderecoId,
@@ -166,7 +177,7 @@ namespace Unipsico.Migrations
                         name: "FK_Estagios_InstituicoesCredenciadas_InstituicaoCredenciadaId",
                         column: x => x.InstituicaoCredenciadaId,
                         principalTable: "InstituicoesCredenciadas",
-                        principalColumn: "InstituicaoId",
+                        principalColumn: "InstituicaoCredenciadaId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Estagios_Professores_ProfessorId",
@@ -178,10 +189,15 @@ namespace Unipsico.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Alunos_CpfAluno",
+                table: "Alunos",
+                column: "CpfAluno",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Consultas_AlunoId",
                 table: "Consultas",
-                column: "AlunoId",
-                unique: true);
+                column: "AlunoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Consultas_PacienteId",
@@ -212,6 +228,18 @@ namespace Unipsico.Migrations
                 name: "IX_InstituicoesCredenciadas_EnderecoId",
                 table: "InstituicoesCredenciadas",
                 column: "EnderecoId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pacientes_CpfPaciente",
+                table: "Pacientes",
+                column: "CpfPaciente",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Professores_CpfProfessor",
+                table: "Professores",
+                column: "CpfProfessor",
                 unique: true);
         }
 

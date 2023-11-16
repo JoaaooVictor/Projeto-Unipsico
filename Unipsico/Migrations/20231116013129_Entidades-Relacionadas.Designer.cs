@@ -11,8 +11,8 @@ using Unipsico.Data;
 namespace Unipsico.Migrations
 {
     [DbContext(typeof(ApllicationDb))]
-    [Migration("20231115195319_Inicial")]
-    partial class Inicial
+    [Migration("20231116013129_Entidades-Relacionadas")]
+    partial class EntidadesRelacionadas
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,8 +27,16 @@ namespace Unipsico.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<int>("IdadeAluno")
-                        .HasColumnType("int");
+                    b.Property<string>("CelularAluno")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("CpfAluno")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTime>("DataRegistro")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("NomeAluno")
                         .IsRequired()
@@ -43,6 +51,9 @@ namespace Unipsico.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("AlunoId");
+
+                    b.HasIndex("CpfAluno")
+                        .IsUnique();
 
                     b.ToTable("Alunos");
                 });
@@ -67,8 +78,7 @@ namespace Unipsico.Migrations
 
                     b.HasKey("ConsultaId");
 
-                    b.HasIndex("AlunoId")
-                        .IsUnique();
+                    b.HasIndex("AlunoId");
 
                     b.HasIndex("PacienteId");
 
@@ -139,7 +149,7 @@ namespace Unipsico.Migrations
 
             modelBuilder.Entity("Unipsico.Models.InstituicaoCredenciadaModel", b =>
                 {
-                    b.Property<Guid>("InstituicaoId")
+                    b.Property<Guid>("InstituicaoCredenciadaId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -150,7 +160,7 @@ namespace Unipsico.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.HasKey("InstituicaoId");
+                    b.HasKey("InstituicaoCredenciadaId");
 
                     b.HasIndex("EnderecoId")
                         .IsUnique();
@@ -170,7 +180,7 @@ namespace Unipsico.Migrations
 
                     b.Property<string>("CpfPaciente")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("EmailPaciente")
                         .IsRequired()
@@ -185,6 +195,9 @@ namespace Unipsico.Migrations
 
                     b.HasKey("PacienteId");
 
+                    b.HasIndex("CpfPaciente")
+                        .IsUnique();
+
                     b.ToTable("Pacientes");
                 });
 
@@ -194,11 +207,29 @@ namespace Unipsico.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("CelularProfessor")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("CpfProfessor")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTime>("DataRegistro")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("NomeProfessor")
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("RpProfessor")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.HasKey("ProfessorId");
+
+                    b.HasIndex("CpfProfessor")
+                        .IsUnique();
 
                     b.ToTable("Professores");
                 });
@@ -206,8 +237,8 @@ namespace Unipsico.Migrations
             modelBuilder.Entity("Unipsico.Models.ConsultaModel", b =>
                 {
                     b.HasOne("Unipsico.Models.AlunoModel", "Aluno")
-                        .WithOne("Consulta")
-                        .HasForeignKey("Unipsico.Models.ConsultaModel", "AlunoId")
+                        .WithMany("Consultas")
+                        .HasForeignKey("AlunoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -218,7 +249,7 @@ namespace Unipsico.Migrations
                         .IsRequired();
 
                     b.HasOne("Unipsico.Models.ProfessorModel", "Professor")
-                        .WithMany("Consulta")
+                        .WithMany("Consultas")
                         .HasForeignKey("ProfessorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -233,7 +264,7 @@ namespace Unipsico.Migrations
             modelBuilder.Entity("Unipsico.Models.EstagioModel", b =>
                 {
                     b.HasOne("Unipsico.Models.AlunoModel", "Aluno")
-                        .WithMany("Estagio")
+                        .WithMany("Estagios")
                         .HasForeignKey("AlunoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -245,7 +276,7 @@ namespace Unipsico.Migrations
                         .IsRequired();
 
                     b.HasOne("Unipsico.Models.ProfessorModel", "Professor")
-                        .WithMany("Estagio")
+                        .WithMany("Estagios")
                         .HasForeignKey("ProfessorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -270,10 +301,9 @@ namespace Unipsico.Migrations
 
             modelBuilder.Entity("Unipsico.Models.AlunoModel", b =>
                 {
-                    b.Navigation("Consulta")
-                        .IsRequired();
+                    b.Navigation("Consultas");
 
-                    b.Navigation("Estagio");
+                    b.Navigation("Estagios");
                 });
 
             modelBuilder.Entity("Unipsico.Models.EnderecoModel", b =>
@@ -293,9 +323,9 @@ namespace Unipsico.Migrations
 
             modelBuilder.Entity("Unipsico.Models.ProfessorModel", b =>
                 {
-                    b.Navigation("Consulta");
+                    b.Navigation("Consultas");
 
-                    b.Navigation("Estagio");
+                    b.Navigation("Estagios");
                 });
 #pragma warning restore 612, 618
         }

@@ -15,6 +15,15 @@ namespace Unipsico.Data.ConfigurationModels
                 .HasOne(e => e.InstituicaoCredenciada)
                 .WithMany(i => i.Estagios)
                 .HasForeignKey(e => e.InstituicaoCredenciadaId);
+
+            builder
+                .HasOne(p => p.Professor)
+                .WithMany(e => e.Estagios)
+                .HasForeignKey(p => p.ProfessorId);
+            builder
+                .HasOne(a => a.Aluno)
+                .WithMany(e => e.Estagios)
+                .HasForeignKey(a => a.AlunoId);
         }
     }
 }

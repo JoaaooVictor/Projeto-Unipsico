@@ -9,7 +9,7 @@ namespace Unipsico.Data.ConfigurationModels
         public void Configure(EntityTypeBuilder<InstituicaoCredenciadaModel> builder)
         {
             builder
-                .HasKey(i => i.InstituicaoId);
+                .HasKey(i => i.InstituicaoCredenciadaId);
         }
     }
 }

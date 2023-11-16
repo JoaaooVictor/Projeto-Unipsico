@@ -9,12 +9,20 @@ namespace Unipsico.Data.ConfigurationModels
         public void Configure(EntityTypeBuilder<AlunoModel> builder)
         {
             builder
-                .HasOne(c => c.Consulta)
-                .WithOne(c => c.Aluno)
-                .HasForeignKey<ConsultaModel>(a => a.AlunoId);
+                .HasKey(c => c.AlunoId);
 
             builder
-                .HasKey(c => c.AlunoId);
+                .HasMany(a => a.Consultas)
+                .WithOne(a => a.Aluno)
+                .HasForeignKey(a => a.AlunoId);
+
+            builder
+                .HasMany(e => e.Estagios)
+                .WithOne(a => a.Aluno)
+                .HasForeignKey(a => a.AlunoId);
+            builder
+                .HasIndex(a => a.CpfAluno)
+                .IsUnique();
         }
     }
 }

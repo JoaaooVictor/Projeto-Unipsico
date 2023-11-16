@@ -10,6 +10,20 @@ namespace Unipsico.Data.ConfigurationModels
         {
             builder
                 .HasKey(p => p.ProfessorId);
+
+            builder
+                .HasMany(p => p.Consultas)
+                .WithOne(p => p.Professor)
+                .HasForeignKey(p => p.ProfessorId);
+
+            builder
+                .HasMany(p => p.Estagios)
+                .WithOne(p => p.Professor)  
+                .HasForeignKey(p => p.ProfessorId);
+
+            builder
+                .HasIndex(p => p.CpfProfessor)
+                .IsUnique();
         }
     }
 }

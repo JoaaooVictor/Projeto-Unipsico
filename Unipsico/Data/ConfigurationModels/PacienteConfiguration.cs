@@ -10,6 +10,14 @@ namespace Unipsico.Data.ConfigurationModels
         {
             builder.
                 HasKey(p => p.PacienteId);
+
+            builder
+                .HasMany(p => p.Consultas)
+                .WithOne(a => a.Paciente)
+                .HasForeignKey(a => a.PacienteId);
+            builder
+                .HasIndex(p => p.CpfPaciente)
+                .IsUnique();
         }
     }
 }

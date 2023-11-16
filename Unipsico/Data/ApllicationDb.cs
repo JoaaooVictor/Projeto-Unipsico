@@ -24,6 +24,8 @@ namespace Unipsico.Data
             modelBuilder.ApplyConfiguration(new EstagioConfiguration());
             modelBuilder.ApplyConfiguration(new PacienteConfiguration());
             modelBuilder.ApplyConfiguration(new InstituicaoCredenciadaConfiguration());
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
