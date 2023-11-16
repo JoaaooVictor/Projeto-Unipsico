@@ -12,10 +12,6 @@ namespace Unipsico.Data.ConfigurationModels
                  HasKey(c => c.ConsultaId);
 
             builder
-                .Property(c => c.DataConsulta)
-                .IsRequired();
-
-            builder
                 .HasOne(p => p.Paciente)
                 .WithMany(c => c.Consultas)
                 .HasForeignKey(c => c.PacienteId);
@@ -29,6 +25,11 @@ namespace Unipsico.Data.ConfigurationModels
                 .HasOne(a => a.Professor)
                 .WithMany(c => c.Consultas)
                 .HasForeignKey(a => a.ProfessorId);
+
+            builder
+                .HasOne(c => c.DataConsulta)
+                .WithOne(d => d.Consulta)
+                .HasForeignKey<ConsultaModel>(d => d.DataConsultaId);
         }
     }
 }

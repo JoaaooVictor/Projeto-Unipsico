@@ -2,9 +2,10 @@
 {
     public enum StatusConsulta
     {
-        Realizada,
-        Cancelada,
-        Remarcada,
-        Agendada,
+        Agendada = 1,
+        Realizada = 2,
+        Remarcada = 3,
+        Cancelada = 4,
+        
     }
 }

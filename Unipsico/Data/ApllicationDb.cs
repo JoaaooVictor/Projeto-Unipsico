@@ -14,6 +14,7 @@ namespace Unipsico.Data
         public DbSet<EnderecoModel> Enderecos { get; set; }
         public DbSet<EstagioModel> Estagios { get; set; }
         public DbSet<InstituicaoCredenciadaModel> InstituicoesCredenciadas { get; set; }
+        public DbSet<DataConsultaModel> DatasConsultas { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,6 +25,7 @@ namespace Unipsico.Data
             modelBuilder.ApplyConfiguration(new EstagioConfiguration());
             modelBuilder.ApplyConfiguration(new PacienteConfiguration());
             modelBuilder.ApplyConfiguration(new InstituicaoCredenciadaConfiguration());
+            modelBuilder.ApplyConfiguration(new DataConsultaConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }
