@@ -11,8 +11,8 @@ using Unipsico.Data;
 namespace Unipsico.Migrations
 {
     [DbContext(typeof(ApllicationDb))]
-    [Migration("20231116013129_Entidades-Relacionadas")]
-    partial class EntidadesRelacionadas
+    [Migration("20231116040248_Aplicando-Models")]
+    partial class AplicandoModels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -67,8 +67,8 @@ namespace Unipsico.Migrations
                     b.Property<Guid>("AlunoId")
                         .HasColumnType("char(36)");
 
-                    b.Property<DateTime>("DataConsulta")
-                        .HasColumnType("datetime(6)");
+                    b.Property<Guid>("DataConsultaId")
+                        .HasColumnType("char(36)");
 
                     b.Property<Guid>("PacienteId")
                         .HasColumnType("char(36)");
@@ -76,15 +76,38 @@ namespace Unipsico.Migrations
                     b.Property<Guid>("ProfessorId")
                         .HasColumnType("char(36)");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.HasKey("ConsultaId");
 
                     b.HasIndex("AlunoId");
+
+                    b.HasIndex("DataConsultaId")
+                        .IsUnique();
 
                     b.HasIndex("PacienteId");
 
                     b.HasIndex("ProfessorId");
 
                     b.ToTable("Consultas");
+                });
+
+            modelBuilder.Entity("Unipsico.Models.DataConsultaModel", b =>
+                {
+                    b.Property<Guid>("DataConsultaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("DataConsulta")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("StatusConsulta")
+                        .HasColumnType("int");
+
+                    b.HasKey("DataConsultaId");
+
+                    b.ToTable("DatasConsultas");
                 });
 
             modelBuilder.Entity("Unipsico.Models.EnderecoModel", b =>
@@ -242,6 +265,12 @@ namespace Unipsico.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Unipsico.Models.DataConsultaModel", "DataConsulta")
+                        .WithOne("Consulta")
+                        .HasForeignKey("Unipsico.Models.ConsultaModel", "DataConsultaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Unipsico.Models.PacienteModel", "Paciente")
                         .WithMany("Consultas")
                         .HasForeignKey("PacienteId")
@@ -255,6 +284,8 @@ namespace Unipsico.Migrations
                         .IsRequired();
 
                     b.Navigation("Aluno");
+
+                    b.Navigation("DataConsulta");
 
                     b.Navigation("Paciente");
 
@@ -304,6 +335,12 @@ namespace Unipsico.Migrations
                     b.Navigation("Consultas");
 
                     b.Navigation("Estagios");
+                });
+
+            modelBuilder.Entity("Unipsico.Models.DataConsultaModel", b =>
+                {
+                    b.Navigation("Consulta")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Unipsico.Models.EnderecoModel", b =>

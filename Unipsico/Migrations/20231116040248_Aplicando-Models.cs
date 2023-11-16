@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Unipsico.Migrations
 {
-    public partial class EntidadesRelacionadas : Migration
+    public partial class AplicandoModels : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -32,6 +32,20 @@ namespace Unipsico.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Alunos", x => x.AlunoId);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "DatasConsultas",
+                columns: table => new
+                {
+                    DataConsultaId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    DataConsulta = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    StatusConsulta = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DatasConsultas", x => x.DataConsultaId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -125,10 +139,11 @@ namespace Unipsico.Migrations
                 columns: table => new
                 {
                     ConsultaId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    DataConsulta = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
                     PacienteId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     AlunoId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    ProfessorId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    ProfessorId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    DataConsultaId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -138,6 +153,12 @@ namespace Unipsico.Migrations
                         column: x => x.AlunoId,
                         principalTable: "Alunos",
                         principalColumn: "AlunoId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Consultas_DatasConsultas_DataConsultaId",
+                        column: x => x.DataConsultaId,
+                        principalTable: "DatasConsultas",
+                        principalColumn: "DataConsultaId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Consultas_Pacientes_PacienteId",
@@ -200,6 +221,12 @@ namespace Unipsico.Migrations
                 column: "AlunoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Consultas_DataConsultaId",
+                table: "Consultas",
+                column: "DataConsultaId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Consultas_PacienteId",
                 table: "Consultas",
                 column: "PacienteId");
@@ -250,6 +277,9 @@ namespace Unipsico.Migrations
 
             migrationBuilder.DropTable(
                 name: "Estagios");
+
+            migrationBuilder.DropTable(
+                name: "DatasConsultas");
 
             migrationBuilder.DropTable(
                 name: "Pacientes");
