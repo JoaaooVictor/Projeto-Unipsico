@@ -12,6 +12,10 @@ namespace Unipsico.Data.ConfigurationModels
                 .HasKey(c => c.AlunoId);
 
             builder
+                .Property(p => p.StatusAluno)
+                .HasColumnType("smallint");
+
+            builder
                 .HasMany(a => a.Consultas)
                 .WithOne(a => a.Aluno)
                 .HasForeignKey(a => a.AlunoId);

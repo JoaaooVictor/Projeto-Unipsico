@@ -10,9 +10,10 @@ namespace Unipsico.Data.ConfigurationModels
         {
             builder
                 .HasKey(d => d.DataConsultaId);
+
             builder
                 .Property(d => d.StatusConsulta)
-                .HasColumnType("bit");
+                .HasColumnType("smallint");
 
             builder
                 .HasOne(d => d.Consulta)
