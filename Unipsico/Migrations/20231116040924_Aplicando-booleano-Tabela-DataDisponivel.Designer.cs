@@ -10,7 +10,7 @@ using Unipsico.Data;
 
 namespace Unipsico.Migrations
 {
-    [DbContext(typeof(ApllicationDb))]
+    [DbContext(typeof(ApplicationDB))]
     [Migration("20231116040924_Aplicando-booleano-Tabela-DataDisponivel")]
     partial class AplicandobooleanoTabelaDataDisponivel
     {

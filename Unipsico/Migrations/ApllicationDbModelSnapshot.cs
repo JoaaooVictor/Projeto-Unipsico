@@ -9,7 +9,7 @@ using Unipsico.Data;
 
 namespace Unipsico.Migrations
 {
-    [DbContext(typeof(ApllicationDb))]
+    [DbContext(typeof(ApplicationDB))]
     partial class ApllicationDbModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

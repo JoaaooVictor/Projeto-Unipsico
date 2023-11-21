@@ -4,9 +4,9 @@ using Unipsico.Models;
 
 namespace Unipsico.Data
 {
-    public class ApllicationDb : DbContext
+    public class ApplicationDB : DbContext
     {
-        public ApllicationDb(DbContextOptions options) : base(options) { }
+        public ApplicationDB(DbContextOptions options) : base(options) { }
         public DbSet<AlunoModel> Alunos { get; set; }
         public DbSet<ProfessorModel> Professores { get; set; }
         public DbSet<PacienteModel> Pacientes { get; set; }

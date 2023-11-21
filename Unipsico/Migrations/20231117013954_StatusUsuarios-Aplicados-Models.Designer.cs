@@ -10,7 +10,7 @@ using Unipsico.Data;
 
 namespace Unipsico.Migrations
 {
-    [DbContext(typeof(ApllicationDb))]
+    [DbContext(typeof(ApplicationDB))]
     [Migration("20231117013954_StatusUsuarios-Aplicados-Models")]
     partial class StatusUsuariosAplicadosModels
     {
