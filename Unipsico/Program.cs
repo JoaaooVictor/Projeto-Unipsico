@@ -1,9 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using Unipsico.Data;
+using Unipsico.Services;
+using Unipsico.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IDataConsultaServices, DataConsultaServices>();
+builder.Services.AddScoped<IConsultaService, ConsultaServices>();
+builder.Services.AddScoped<IPacienteServices, PacienteServices>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
